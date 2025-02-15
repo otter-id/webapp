@@ -26,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
 
 interface ReceiptData {
   data: {
@@ -107,7 +108,7 @@ const receiptData = {
   },
 };
 
-const MotionCard = motion(Card);
+const MotionCard = motion.create(Card);
 
 export default function Receipt() {
   const searchParams = useSearchParams();
@@ -164,15 +165,33 @@ export default function Receipt() {
       }
 
       try {
-        const response = await fetch(`https://example.com/${orderId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch receipt data");
-        }
-        const data = await response.json();
-        setReceiptData(data);
+        const response = await axios.get(
+          `http://localhost:8080/api/receipt?id=${orderId}`,
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        setReceiptData(response.data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        if (axios.isAxiosError(err)) {
+          setError(
+            err.response?.data?.message ||
+              `Failed to fetch receipt data: ${err.message}`
+          );
+          console.error("Axios error details:", {
+            message: err.message,
+            response: err.response?.data,
+            status: err.response?.status,
+          });
+        } else {
+          setError("An unexpected error occurred");
+        }
+        console.error("Error fetching receipt data:", err);
       } finally {
         setIsLoading(false);
       }

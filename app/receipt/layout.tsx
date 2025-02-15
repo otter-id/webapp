@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { roboto } from "@/app/ui/fonts";
+import "@/app/globals.css";
 
 export const metadata: Metadata = {
   title: "Otter Receipt System",
