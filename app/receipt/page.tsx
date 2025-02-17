@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -17,6 +17,7 @@ import {
   Users,
   ChevronRight,
   ChevronLeft,
+  Download,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -27,36 +28,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
-
-interface ReceiptData {
-  data: {
-    restaurantName: string;
-    restaurantLogo: string;
-    restaurantAddress: string;
-    emoji: string;
-    orderDateTime: string;
-    orderNumber: string;
-    firstName: string;
-    items: Array<{
-      name: string;
-      quantity: number;
-      price: number;
-      image: string;
-      modifiers: Array<{
-        name: string;
-        price: number;
-      }>;
-    }>;
-    subtotal: number;
-    taxesAndFees: number;
-    total: number;
-    pointsEarned: number;
-    paymentMethod: string;
-    phoneNumber: string;
-    pickupInstructions: string;
-    googleMapsUrl: string;
-  };
-}
+import { generateReceiptPDF } from "@/lib/pdf";
+import { ReceiptData } from "@/types/receipt";
 
 const receiptData = {
   data: {
@@ -108,7 +81,7 @@ const receiptData = {
   },
 };
 
-const MotionCard = motion.create(Card);
+const MotionCard = motion(Card);
 
 export default function Receipt() {
   const searchParams = useSearchParams();
@@ -469,6 +442,10 @@ export default function Receipt() {
     }
   };
 
+  const generatePDF = () => {
+    generateReceiptPDF(data);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white py-4 px-4 max-w-md mx-auto">
       <motion.div
@@ -488,6 +465,7 @@ export default function Receipt() {
               width={60}
               height={60}
               className="rounded-full"
+              draggable={false}
             />
             <div>
               <CardTitle className="text-xl">{data.restaurantName}</CardTitle>
@@ -537,15 +515,17 @@ export default function Receipt() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Info className="h-8 w-8 text-pink-600" />
-                  <div>
-                    <p className="font-bold">Pickup Instructions</p>
-                    <p className="text-sm text-muted-foreground">
-                      {data.pickupInstructions}
-                    </p>
+                {data.pickupInstructions && (
+                  <div className="flex items-start space-x-3">
+                    <Info className="h-8 w-8 text-pink-600" />
+                    <div>
+                      <p className="font-bold">Pickup Instructions</p>
+                      <p className="text-sm text-muted-foreground">
+                        {data.pickupInstructions}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
                 <Button
                   className="w-full bg-pink-600 hover:bg-pink-700"
                   onClick={() => window.open(data.googleMapsUrl, "_blank")}
@@ -579,6 +559,7 @@ export default function Receipt() {
                         width={96}
                         height={80}
                         className="w-24 h-20 object-cover rounded-md flex-shrink-0"
+                        draggable={false}
                       />
                       <div className="flex-grow space-y-1">
                         <div className="flex justify-between items-start">
@@ -617,6 +598,13 @@ export default function Receipt() {
                     )}
                   </motion.div>
                 ))}
+                <Button
+                  className="w-full mt-4 bg-pink-600 hover:bg-pink-700"
+                  onClick={generatePDF}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Save as PDF
+                </Button>
               </CardContent>
             </MotionCard>
 
@@ -737,7 +725,15 @@ export default function Receipt() {
           variants={cardVariants}
           className="text-center text-sm text-muted-foreground mb-4"
         >
-          Powered by Otter
+          <span>Powered by</span>
+          <Image
+            src="/img/Asset 2.svg"
+            alt="Otter"
+            width={60}
+            height={20}
+            className="inline-block pl-2"
+            draggable={false}
+          />
         </motion.div>
       </motion.div>
     </div>
