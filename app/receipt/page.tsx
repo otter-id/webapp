@@ -31,7 +31,7 @@ import axios from "axios";
 import { generateReceiptPDF } from "@/lib/pdf";
 import { ReceiptData } from "@/types/receipt";
 
-const receiptData = {
+const receiptDataa = {
   data: {
     restaurantName: "Sharetea",
     restaurantLogo:
@@ -67,15 +67,165 @@ const receiptData = {
           },
         ],
       },
+      {
+        name: "Matcha Milk Tea",
+        quantity: 1,
+        price: 26000,
+        image:
+          "https://www.texanerin.com/content/uploads/2023/05/matcha-with-boba-image-1200.jpg",
+        modifiers: [
+          {
+            name: "Ice Level: Less Ice",
+            price: 3000,
+          },
+          {
+            name: "Grass Jelly",
+            price: 2500,
+          },
+          {
+            name: "Medium",
+            price: 2000,
+          },
+          {
+            name: "Sugar Level: 50%",
+            price: 2000,
+          },
+        ],
+      },
+      {
+        name: "Matcha Milk Tea",
+        quantity: 1,
+        price: 26000,
+        image:
+          "https://www.texanerin.com/content/uploads/2023/05/matcha-with-boba-image-1200.jpg",
+        modifiers: [
+          {
+            name: "Ice Level: Less Ice",
+            price: 3000,
+          },
+          {
+            name: "Grass Jelly",
+            price: 2500,
+          },
+          {
+            name: "Medium",
+            price: 2000,
+          },
+          {
+            name: "Sugar Level: 50%",
+            price: 2000,
+          },
+        ],
+      },
+      {
+        name: "Matcha Milk Tea",
+        quantity: 1,
+        price: 26000,
+        image:
+          "https://www.texanerin.com/content/uploads/2023/05/matcha-with-boba-image-1200.jpg",
+        modifiers: [
+          {
+            name: "Ice Level: Less Ice",
+            price: 3000,
+          },
+          {
+            name: "Grass Jelly",
+            price: 2500,
+          },
+          {
+            name: "Medium",
+            price: 2000,
+          },
+          {
+            name: "Sugar Level: 50%",
+            price: 2000,
+          },
+        ],
+      },
+      {
+        name: "Matcha Milk Tea",
+        quantity: 1,
+        price: 26000,
+        image:
+          "https://www.texanerin.com/content/uploads/2023/05/matcha-with-boba-image-1200.jpg",
+        modifiers: [
+          {
+            name: "Ice Level: Less Ice",
+            price: 3000,
+          },
+          {
+            name: "Grass Jelly",
+            price: 2500,
+          },
+          {
+            name: "Medium",
+            price: 2000,
+          },
+          {
+            name: "Sugar Level: 50%",
+            price: 2000,
+          },
+        ],
+      },
+      {
+        name: "Matcha Milk Tea",
+        quantity: 1,
+        price: 26000,
+        image:
+          "https://www.texanerin.com/content/uploads/2023/05/matcha-with-boba-image-1200.jpg",
+        modifiers: [
+          {
+            name: "Ice Level: Less Ice",
+            price: 3000,
+          },
+          {
+            name: "Grass Jelly",
+            price: 2500,
+          },
+          {
+            name: "Medium",
+            price: 2000,
+          },
+          {
+            name: "Sugar Level: 50%",
+            price: 2000,
+          },
+        ],
+      },
+      {
+        name: "Matcha Milk Tea",
+        quantity: 1,
+        price: 26000,
+        image:
+          "https://www.texanerin.com/content/uploads/2023/05/matcha-with-boba-image-1200.jpg",
+        modifiers: [
+          {
+            name: "Ice Level: Less Ice",
+            price: 3000,
+          },
+          {
+            name: "Grass Jelly",
+            price: 2500,
+          },
+          {
+            name: "Medium",
+            price: 2000,
+          },
+          {
+            name: "Sugar Level: 50%",
+            price: 2000,
+          },
+        ],
+      },
     ],
-    subtotal: 35500,
+    subtotal: 248500,
     taxesAndFees: 0,
-    total: 35500,
+    total: 248500,
     pointsEarned: 1,
     paymentMethod: "QR_CODE",
     phoneNumber: "0215658406",
     pickupInstructions:
-      "Please show your number on your device to one of the team members for pickup . Thank you",
+      "Please show your number on your device to one of the team members for pickup. Thank you",
     googleMapsUrl:
       "https://www.google.com/maps/place/Sharetea/@-6.221919,106.828125,15z/data=!4m2!3m1!1s0x2e69f199e229c78f:0x2e69f199e229c78f",
   },
@@ -204,7 +354,7 @@ export default function Receipt() {
     );
   }
 
-  const { data } = receiptData;
+  const { data } = receiptDataa;
   const orderDate = new Date(data.orderDateTime);
 
   const handleSplitBill = () => {
@@ -278,9 +428,10 @@ export default function Receipt() {
     const result: { [key: string]: number } = {};
     people.forEach((person) => (result[person] = 0));
 
-    data.items.forEach((item) => {
+    data.items.forEach((item, itemIndex) => {
       for (let i = 0; i < item.quantity; i++) {
-        const assignedPerson = itemAssignments[`${item.name}-${i}`];
+        const assignmentKey = `${item.name}-${itemIndex}-${i}`;
+        const assignedPerson = itemAssignments[assignmentKey];
         if (assignedPerson) {
           const itemTotal =
             item.price +
@@ -294,11 +445,15 @@ export default function Receipt() {
       (sum, value) => sum + value,
       0
     );
-    const taxRatio = data.taxesAndFees / totalAssigned;
 
+    // Calculate tax ratio only if totalAssigned is not 0
+    const taxRatio = totalAssigned > 0 ? data.taxesAndFees / totalAssigned : 0;
+
+    // Apply tax ratio to each person's amount
     Object.keys(result).forEach((person) => {
-      result[person] += result[person] * taxRatio;
-      result[person] = Math.round(result[person]);
+      const personAmount = result[person];
+      const personTax = personAmount * taxRatio;
+      result[person] = Math.round(personAmount + personTax);
     });
 
     setSplitBillResult(result);
@@ -381,39 +536,43 @@ export default function Receipt() {
             <h2 className="text-lg font-semibold">
               Assign items to each person
             </h2>
-            {data.items.flatMap((item) =>
-              Array.from({ length: item.quantity }, (_, index) => (
-                <div key={`${item.name}-${index}`} className="space-y-2">
-                  <span className="text-black font-medium">
-                    {item.name}
-                    <span className="text-sm text-muted-foreground ml-2">
-                      (
-                      {item.modifiers
-                        .filter((mod) => mod.price > 0)
-                        .map((mod) => mod.name.split(":")[0])
-                        .join(", ")}
-                      )
+            {data.items.flatMap((item, itemIndex) =>
+              Array.from({ length: item.quantity }, (_, index) => {
+                const uniqueKey = `item-${itemIndex}-${index}`;
+                const assignmentKey = `${item.name}-${itemIndex}-${index}`;
+                return (
+                  <div key={uniqueKey} className="space-y-2">
+                    <span className="text-black font-medium">
+                      {item.name}
+                      <span className="text-sm text-muted-foreground ml-2">
+                        (
+                        {item.modifiers
+                          .filter((mod) => mod.price > 0)
+                          .map((mod) => mod.name.split(":")[0])
+                          .join(", ")}
+                        )
+                      </span>
                     </span>
-                  </span>
-                  <Select
-                    onValueChange={(value) =>
-                      handleItemAssignment(`${item.name}-${index}`, value)
-                    }
-                    defaultValue={itemAssignments[`${item.name}-${index}`]}
-                  >
-                    <SelectTrigger className="w-full border-pink-200">
-                      <SelectValue placeholder="Assign to" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {people.map((person, idx) => (
-                        <SelectItem key={idx} value={person}>
-                          {person}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              ))
+                    <Select
+                      onValueChange={(value) =>
+                        handleItemAssignment(assignmentKey, value)
+                      }
+                      defaultValue={itemAssignments[assignmentKey]}
+                    >
+                      <SelectTrigger className="w-full border-pink-200">
+                        <SelectValue placeholder="Assign to" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {people.map((person, idx) => (
+                          <SelectItem key={idx} value={person}>
+                            {person}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                );
+              })
             )}
             {itemAssignmentError && (
               <p className="text-red-500 text-sm">{itemAssignmentError}</p>
@@ -442,8 +601,9 @@ export default function Receipt() {
     }
   };
 
-  const generatePDF = () => {
-    generateReceiptPDF(data);
+  const generatePDF = async () => {
+    if (!orderId) return;
+    await generateReceiptPDF(data, orderId);
   };
 
   return (
