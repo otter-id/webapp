@@ -226,5 +226,5 @@ export async function generateReceiptPDF(
   }
 
   // Save the PDF
-  doc.save(`receipt-${data.orderNumber}.pdf`);
+  doc.save(`${orderId}-receipt-${data.restaurantName}.pdf`);
 }
