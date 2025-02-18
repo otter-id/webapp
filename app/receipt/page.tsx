@@ -19,6 +19,7 @@ import {
   ChevronLeft,
   Download,
   Share,
+  FileDown,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -655,7 +656,7 @@ export default function Receipt() {
                 className="flex-1 bg-pink-600 hover:bg-pink-700"
                 onClick={generatePDF}
               >
-                <Download className="h-4 w-4 mr-2" />
+                <FileDown className="h-4 w-4 mr-2" />
                 <span className="font-semibold">Save as PDF</span>
               </Button>
               <Button
