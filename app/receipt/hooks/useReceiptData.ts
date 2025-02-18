@@ -10,7 +10,7 @@ export const useReceiptData = (orderId: string | null) => {
   useEffect(() => {
     const fetchReceiptData = async () => {
       if (!orderId) {
-        setError("No order ID provided");
+        setError("Order ID is required");
         setIsLoading(false);
         return;
       }

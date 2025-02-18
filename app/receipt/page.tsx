@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { useReceiptData } from "./hooks/useReceiptData";
 import { useSplitBill } from "./hooks/useSplitBill";
 import { containerVariants } from "./utils/animations";
-import { LoadingState } from "./components/LoadingState";
 import { ErrorState } from "./components/ErrorState";
 import { ReceiptHeader } from "./components/ReceiptHeader";
 import { ReceiptActions } from "./components/ReceiptActions";
@@ -17,24 +16,34 @@ import { PointsCard } from "./components/PointsCard";
 import { SplitBill } from "./components/SplitBill";
 import { Footer } from "./components/Footer";
 
+// Skeleton components
+import { ReceiptHeaderSkeleton } from "./components/skeletons/ReceiptHeaderSkeleton";
+import { ReceiptActionsSkeleton } from "./components/skeletons/ReceiptActionsSkeleton";
+import { PickupInfoSkeleton } from "./components/skeletons/PickupInfoSkeleton";
+import { OrderDetailsSkeleton } from "./components/skeletons/OrderDetailsSkeleton";
+import { OrderSummarySkeleton } from "./components/skeletons/OrderSummarySkeleton";
+import { PointsCardSkeleton } from "./components/skeletons/PointsCardSkeleton";
+
 // Temporary data for development
-import { receiptDataa } from "./data";
+import { fakeData } from "./data";
 
 const ReceiptContent = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
   const { receiptData, isLoading, error } = useReceiptData(orderId);
-  const splitBillState = useSplitBill(receiptDataa.data);
+  const splitBillState = useSplitBill(fakeData.data);
 
-  if (isLoading) {
-    return <LoadingState />;
+  // Show error only if there's an error and we're not loading
+  if (error && !isLoading) {
+    return <ErrorState error={error} />;
   }
 
-  if (error || !receiptData) {
-    return <ErrorState error={error || "Receipt not found"} />;
+  // Show error if we have no data after loading is complete
+  if (!isLoading && !receiptData) {
+    return <ErrorState error="Receipt not found" />;
   }
 
-  const { data } = receiptDataa; // Replace with receiptData when API is ready
+  const { data } = fakeData; // Replace with receiptData when API is ready
 
   // If split bill is active, show only the split bill UI
   if (splitBillState.splitBillStep > 0) {
@@ -67,16 +76,30 @@ const ReceiptContent = () => {
         animate="visible"
         className="space-y-4"
       >
-        <ReceiptHeader data={data} />
-        <ReceiptActions data={data} orderId={orderId || ""} />
-        <PickupInfo data={data} />
-        <OrderDetails data={data} />
-        <OrderSummary
-          data={data}
-          onSplitBill={splitBillState.handleSplitBill}
-        />
-        <PointsCard data={data} />
-        <Footer />
+        {isLoading ? (
+          <>
+            <ReceiptHeaderSkeleton />
+            <ReceiptActionsSkeleton />
+            <PickupInfoSkeleton />
+            <OrderDetailsSkeleton />
+            <OrderSummarySkeleton />
+            <PointsCardSkeleton />
+            <Footer />
+          </>
+        ) : (
+          <>
+            <ReceiptHeader data={data} />
+            <ReceiptActions data={data} orderId={orderId || ""} />
+            <PickupInfo data={data} />
+            <OrderDetails data={data} />
+            <OrderSummary
+              data={data}
+              onSplitBill={splitBillState.handleSplitBill}
+            />
+            <PointsCard data={data} />
+            <Footer />
+          </>
+        )}
       </motion.div>
     </div>
   );
@@ -84,7 +107,7 @@ const ReceiptContent = () => {
 
 export default function Receipt() {
   return (
-    <Suspense fallback={<LoadingState />}>
+    <Suspense>
       <ReceiptContent />
     </Suspense>
   );

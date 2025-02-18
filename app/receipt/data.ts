@@ -1,6 +1,6 @@
 import { ReceiptData } from "@/types/receipt";
 
-export const receiptDataa: ReceiptData = {
+export const fakeData: ReceiptData = {
   data: {
     restaurantName: "Sharetea",
     restaurantLogo:
