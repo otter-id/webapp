@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -234,7 +234,7 @@ const receiptDataa = {
 
 const MotionCard = motion(Card);
 
-export default function Receipt() {
+const ReceiptContent = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
 
@@ -916,5 +916,22 @@ export default function Receipt() {
         </motion.div>
       </motion.div>
     </div>
+  );
+};
+
+export default function Receipt() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white py-4 px-4 max-w-md mx-auto flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600 mx-auto"></div>
+            <p className="text-pink-600">Loading receipt...</p>
+          </div>
+        </div>
+      }
+    >
+      <ReceiptContent />
+    </Suspense>
   );
 }
