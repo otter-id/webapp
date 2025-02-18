@@ -23,9 +23,10 @@ const MotionCard = motion(Card);
 interface SplitBillProps {
   data: ReceiptData["data"];
   onClose: () => void;
+  splitBillState: ReturnType<typeof useSplitBill>;
 }
 
-export function SplitBill({ data, onClose }: SplitBillProps) {
+export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
   const {
     splitBillStep,
     numberOfPeople,
@@ -34,13 +35,12 @@ export function SplitBill({ data, onClose }: SplitBillProps) {
     splitBillResult,
     duplicateNameError,
     itemAssignmentError,
-    handleCancelSplitBill,
     handleNextStep,
     handlePreviousStep,
     handlePersonNameChange,
     handleItemAssignment,
     setNumberOfPeople,
-  } = useSplitBill(data);
+  } = splitBillState;
 
   const renderContent = () => {
     switch (splitBillStep) {
@@ -195,7 +195,7 @@ export function SplitBill({ data, onClose }: SplitBillProps) {
         <div className="flex justify-between mt-4">
           {splitBillStep === 1 ? (
             <Button
-              onClick={handleCancelSplitBill}
+              onClick={onClose}
               variant="outline"
               className="border-pink-300 text-pink-700 hover:bg-pink-50"
             >
