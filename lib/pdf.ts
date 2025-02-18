@@ -11,8 +11,9 @@ export async function generateReceiptPDF(
   const pageWidth = doc.internal.pageSize.width;
   const pageHeight = doc.internal.pageSize.height;
   const margin = 20;
-  const contentWidth = pageWidth - 2 * margin;
+  //   const contentWidth = pageWidth - 2 * margin;
   let yPos = margin;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let currentPage = 1;
 
   // Helper function to check if we need a new page
@@ -48,12 +49,12 @@ export async function generateReceiptPDF(
     doc.line(margin, y, pageWidth - margin, y);
   };
 
-  // Helper function to add page number
-  const addPageNumber = () => {
-    const footerY = pageHeight - margin;
-    doc.setFontSize(9);
-    addRightAlignedText(`Page ${currentPage}/${totalPages}`, footerY);
-  };
+  //   // Helper function to add page number
+  //   const addPageNumber = () => {
+  //     const footerY = pageHeight - margin;
+  //     doc.setFontSize(9);
+  //     addRightAlignedText(`Page ${currentPage}/${totalPages}`, footerY);
+  //   };
 
   // Generate QR Code
   const qrUrl = `http://localhost:3000/receipt?id=${orderId}`;

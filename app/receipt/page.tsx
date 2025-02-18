@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -17,7 +17,6 @@ import {
   Users,
   ChevronRight,
   ChevronLeft,
-  Download,
   Share,
   FileDown,
 } from "lucide-react";
