@@ -18,6 +18,7 @@ import {
   ChevronRight,
   ChevronLeft,
   Download,
+  Share,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -649,6 +650,31 @@ export default function Receipt() {
 
         {splitBillStep === 0 && (
           <>
+            <div className="flex gap-2">
+              <Button
+                className="flex-1 bg-pink-600 hover:bg-pink-700"
+                onClick={generatePDF}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                <span className="font-semibold">Save as PDF</span>
+              </Button>
+              <Button
+                className="flex-1 bg-pink-600 hover:bg-pink-700"
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: `${data.restaurantName} Receipt`,
+                      text: `View receipt for ${data.restaurantName} Order #${data.orderNumber}`,
+                      url: window.location.href,
+                    });
+                  }
+                }}
+              >
+                <Share className="h-4 w-4 mr-2" />
+                <span className="font-semibold">Share Receipt</span>
+              </Button>
+            </div>
+
             <MotionCard
               variants={cardVariants}
               className="rounded-xl border-pink-100"
@@ -758,13 +784,6 @@ export default function Receipt() {
                     )}
                   </motion.div>
                 ))}
-                <Button
-                  className="w-full mt-4 bg-pink-600 hover:bg-pink-700"
-                  onClick={generatePDF}
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Save as PDF
-                </Button>
               </CardContent>
             </MotionCard>
 
