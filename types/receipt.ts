@@ -23,7 +23,7 @@ export interface ReceiptData {
     pointsEarned: number;
     paymentMethod: string;
     phoneNumber: string;
-    pickupInstructions: string;
+    pickupInstructions?: string;
     googleMapsUrl: string;
   };
 }
