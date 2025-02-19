@@ -15,7 +15,7 @@ interface OrderDetailsProps {
 
 export function OrderDetails({ data }: OrderDetailsProps) {
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-amber-200">
+    <MotionCard variants={cardVariants} className="rounded-xl">
       <CardHeader>
         <CardTitle className="text-lg">Order Details</CardTitle>
       </CardHeader>
@@ -68,7 +68,7 @@ export function OrderDetails({ data }: OrderDetailsProps) {
               </div>
             </div>
             {index < data.items.length - 1 && (
-              <Separator className="bg-amber-200" />
+              <Separator orientation="horizontal" variant="otter" />
             )}
           </motion.div>
         ))}

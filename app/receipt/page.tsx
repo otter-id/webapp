@@ -43,14 +43,14 @@ const ReceiptContent = () => {
     return <ErrorState error="Receipt not found" />;
   }
 
-  // const { data } = fakeData;
+  const { data } = fakeData;
 
-  const data = isLoading ? fakeData.data : receiptData!.data; // Replace with receiptData when API is ready
+  // const data = isLoading ? fakeData.data : receiptData!.data; // Replace with receiptData when API is ready
 
   // If split bill is active, show only the split bill UI
   if (splitBillState.splitBillStep > 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-red-50 to-white py-4 px-4 max-w-md mx-auto">
+      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white py-4 px-4 max-w-md mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"

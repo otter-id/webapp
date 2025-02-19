@@ -57,9 +57,9 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
               <div className="flex items-center">
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="outline-otter"
                   size="icon"
-                  className="h-8 w-8 rounded-r-none border-pink-200"
+                  className="h-8 w-8 rounded-r-none"
                   onClick={() =>
                     setNumberOfPeople((prev) => Math.max(2, prev - 1))
                   }
@@ -72,13 +72,13 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
                   inputMode="none"
                   value={numberOfPeople}
                   readOnly
-                  className="w-14 h-8 text-center rounded-none border-x-0 border-pink-200 focus:ring-pink-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-14 h-8 text-center rounded-none border-x-0 border-yellow-400 focus:ring-yellow-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="outline-otter"
                   size="icon"
-                  className="h-8 w-8 rounded-l-none border-pink-200"
+                  className="h-8 w-8 rounded-l-none"
                   onClick={() => setNumberOfPeople((prev) => prev + 1)}
                 >
                   +
@@ -99,12 +99,12 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
                   Person {index + 1}
                 </Label>
                 <Input
+                  variant="otter"
                   id={`person${index}`}
                   value={people[index] || ""}
                   onChange={(e) =>
                     handlePersonNameChange(index, e.target.value)
                   }
-                  className="border-pink-200 focus:ring-pink-500"
                 />
               </div>
             ))}
@@ -142,7 +142,7 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
                       }
                       defaultValue={itemAssignments[assignmentKey]}
                     >
-                      <SelectTrigger className="w-full border-pink-200">
+                      <SelectTrigger className="w-full border-yellow-400">
                         <SelectValue placeholder="Assign to" />
                       </SelectTrigger>
                       <SelectContent>
@@ -189,32 +189,24 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
   }
 
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-pink-100">
+    <MotionCard variants={cardVariants} className="rounded-xl">
       <CardContent className="py-4">
         {renderContent()}
         <div className="flex justify-between mt-4">
           {splitBillStep === 1 ? (
-            <Button
-              onClick={onClose}
-              variant="outline"
-              className="border-pink-300 text-pink-700 hover:bg-pink-50"
-            >
+            <Button onClick={onClose} variant="outline-otter">
               Cancel
             </Button>
           ) : splitBillStep > 1 && splitBillStep < 4 ? (
-            <Button
-              variant="outline"
-              onClick={handlePreviousStep}
-              className="border-pink-300 text-pink-700 hover:bg-pink-50"
-            >
+            <Button variant="outline-otter" onClick={handlePreviousStep}>
               <ChevronLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
           ) : null}
           {splitBillStep < 4 && (
             <Button
+              variant="otter"
               onClick={handleNextStep}
-              className="bg-pink-600 hover:bg-pink-700 ml-auto"
               disabled={
                 (splitBillStep === 2 &&
                   (duplicateNameError !== null ||
@@ -229,10 +221,7 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
             </Button>
           )}
           {splitBillStep === 4 && (
-            <Button
-              onClick={onClose}
-              className="bg-pink-600 hover:bg-pink-700 ml-auto"
-            >
+            <Button variant="otter" onClick={onClose} className="ml-auto">
               Done
             </Button>
           )}

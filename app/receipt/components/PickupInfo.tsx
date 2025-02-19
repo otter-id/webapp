@@ -15,7 +15,7 @@ interface PickupInfoProps {
 
 export function PickupInfo({ data }: PickupInfoProps) {
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-amber-200">
+    <MotionCard variants={cardVariants} className="rounded-xl">
       <CardHeader>
         <CardTitle className="text-lg">Pickup</CardTitle>
       </CardHeader>

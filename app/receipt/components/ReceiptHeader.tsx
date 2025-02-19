@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { cardVariants } from "../utils/animations";
 import { ReceiptData } from "@/types/receipt";
 
-const MotionCard = motion(Card);
+const MotionCard = motion.create(Card);
 
 interface ReceiptHeaderProps {
   data: ReceiptData["data"];
@@ -17,7 +17,7 @@ export function ReceiptHeader({ data }: ReceiptHeaderProps) {
   const orderDate = new Date(data.orderDateTime);
 
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-amber-200">
+    <MotionCard variants={cardVariants} className="rounded-xl">
       <CardHeader className="flex flex-row items-center space-x-4 pb-2">
         <Image
           src={data.restaurantLogo || "/placeholder.svg"}

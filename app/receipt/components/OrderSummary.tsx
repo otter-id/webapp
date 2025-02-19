@@ -17,7 +17,7 @@ interface OrderSummaryProps {
 
 export function OrderSummary({ data, onSplitBill }: OrderSummaryProps) {
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-amber-200">
+    <MotionCard variants={cardVariants} className="rounded-xl">
       <CardContent className="space-y-2 py-4">
         <div className="flex justify-between">
           <span>Subtotal</span>
@@ -27,7 +27,7 @@ export function OrderSummary({ data, onSplitBill }: OrderSummaryProps) {
           <span>Taxes and Fees</span>
           <span>Rp {data.taxesAndFees.toLocaleString()}</span>
         </div>
-        <Separator className="bg-amber-200" />
+        <Separator variant="otter" orientation="horizontal" />
         <div className="flex justify-between font-bold">
           <span>Total</span>
           <span>Rp {data.total.toLocaleString()}</span>
