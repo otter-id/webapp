@@ -48,7 +48,7 @@ const ReceiptContent = () => {
   // If split bill is active, show only the split bill UI
   if (splitBillState.splitBillStep > 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white py-4 px-4 max-w-md mx-auto">
+      <div className="min-h-screen bg-gradient-to-b from-red-50 to-white py-4 px-4 max-w-md mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -69,7 +69,7 @@ const ReceiptContent = () => {
 
   // Otherwise show the main receipt content
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white py-4 px-4 max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white py-4 px-4 max-w-md mx-auto">
       <motion.div
         variants={containerVariants}
         initial="hidden"

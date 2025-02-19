@@ -15,20 +15,20 @@ export function PointsCard({ data }: PointsCardProps) {
   return (
     <MotionCard
       variants={cardVariants}
-      className="rounded-xl border-pink-100 bg-gradient-to-br from-pink-100 to-purple-100"
+      className="rounded-xl border-yellow-100 bg-gradient-to-br from-yellow-100 to-amber-300"
     >
       <CardContent className="py-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h3 className="text-lg font-semibold text-pink-700">
+            <h3 className="text-lg font-semibold text-yellow-700">
               Points Earned
             </h3>
-            <p className="text-sm text-pink-600">
+            <p className="text-sm text-yellow-600 font-medium">
               Keep collecting for rewards!
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-3xl font-bold text-pink-600">
+            <span className="text-3xl font-bold text-yellow-600">
               {data.pointsEarned}
             </span>
             <span className="text-3xl">{data.emoji}</span>

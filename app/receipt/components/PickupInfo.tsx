@@ -15,13 +15,13 @@ interface PickupInfoProps {
 
 export function PickupInfo({ data }: PickupInfoProps) {
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-pink-100">
+    <MotionCard variants={cardVariants} className="rounded-xl border-amber-200">
       <CardHeader>
         <CardTitle className="text-lg">Pickup</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center space-x-3">
-          <Store className="h-5 w-5 text-pink-600" />
+          <Store className="h-5 w-5 text-amber-400" />
           <div>
             <p className="font-bold">Store Location</p>
             <p className="text-sm text-muted-foreground">
@@ -30,7 +30,7 @@ export function PickupInfo({ data }: PickupInfoProps) {
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <Phone className="h-5 w-5 text-pink-600" />
+          <Phone className="h-5 w-5 text-amber-400" />
           <div>
             <p className="font-bold">Store Phone</p>
             <p className="text-sm text-muted-foreground">{data.phoneNumber}</p>
@@ -38,7 +38,7 @@ export function PickupInfo({ data }: PickupInfoProps) {
         </div>
         {data.pickupInstructions && (
           <div className="flex items-start space-x-3">
-            <Info className="h-8 w-8 text-pink-600" />
+            <Info className="h-8 w-8 text-amber-400" />
             <div>
               <p className="font-bold">Pickup Instructions</p>
               <p className="text-sm text-muted-foreground">
@@ -48,7 +48,8 @@ export function PickupInfo({ data }: PickupInfoProps) {
           </div>
         )}
         <Button
-          className="w-full bg-pink-600 hover:bg-pink-700"
+          variant="otter"
+          className="w-full"
           onClick={() => window.open(data.googleMapsUrl, "_blank")}
         >
           <MapPin className="h-4 w-4" />

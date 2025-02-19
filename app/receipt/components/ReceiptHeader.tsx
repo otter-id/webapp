@@ -17,7 +17,7 @@ export function ReceiptHeader({ data }: ReceiptHeaderProps) {
   const orderDate = new Date(data.orderDateTime);
 
   return (
-    <MotionCard variants={cardVariants} className="rounded-xl border-pink-100">
+    <MotionCard variants={cardVariants} className="rounded-xl border-amber-200">
       <CardHeader className="flex flex-row items-center space-x-4 pb-2">
         <Image
           src={data.restaurantLogo || "/placeholder.svg"}
@@ -36,7 +36,7 @@ export function ReceiptHeader({ data }: ReceiptHeaderProps) {
       </CardHeader>
       <CardContent>
         <div className="text-center py-4">
-          <p className="text-5xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-rose-600">
+          <p className="text-5xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-600">
             #{data.orderNumber}
           </p>
           <p className="text-2xl font-medium mb-2">{data.firstName}</p>

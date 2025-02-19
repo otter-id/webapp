@@ -18,15 +18,13 @@ export function ReceiptActions({ data, orderId }: ReceiptActionsProps) {
 
   return (
     <div className="flex gap-2">
-      <Button
-        className="flex-1 bg-pink-600 hover:bg-pink-700"
-        onClick={generatePDF}
-      >
+      <Button variant="otter" className="flex-1" onClick={generatePDF}>
         <FileDown className="h-4 w-4 mr-2" />
-        <span className="font-semibold">Save as PDFFF</span>
+        <span className="font-semibold">Save as PDF</span>
       </Button>
       <Button
-        className="flex-1 bg-pink-600 hover:bg-pink-700"
+        variant="otter"
+        className="flex-1"
         onClick={() => {
           if (navigator.share) {
             navigator.share({
