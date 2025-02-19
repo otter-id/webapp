@@ -57,7 +57,7 @@ export async function generateReceiptPDF(
   //   };
 
   // Generate QR Code
-  const qrUrl = `http://localhost:3000/receipt?id=${orderId}`;
+  const qrUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/receipt?id=${orderId}`;
   const qrCodeDataUrl = await QRCode.toDataURL(qrUrl, {
     margin: 1,
     width: 100,

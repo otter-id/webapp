@@ -20,6 +20,7 @@ export const useReceiptData = (orderId: string | null) => {
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/receipt?id=${orderId}`,
           {
             headers: {
+              "Access-Control-Allow-Origin": "*",
               Accept: "application/json",
               "Content-Type": "application/json",
             },
