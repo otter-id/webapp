@@ -43,7 +43,9 @@ const ReceiptContent = () => {
     return <ErrorState error="Receipt not found" />;
   }
 
-  const { data } = fakeData; // Replace with receiptData when API is ready
+  // const { data } = fakeData;
+
+  const data = isLoading ? fakeData.data : receiptData!.data; // Replace with receiptData when API is ready
 
   // If split bill is active, show only the split bill UI
   if (splitBillState.splitBillStep > 0) {

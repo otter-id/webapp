@@ -17,7 +17,7 @@ export const useReceiptData = (orderId: string | null) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/receipt?id=${orderId}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/receipt?id=${orderId}`,
           {
             headers: {
               Accept: "application/json",
