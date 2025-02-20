@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { cardVariants } from "../utils/animations";
 import { ReceiptData } from "@/types/receipt";
 import { useSplitBill } from "../hooks/useSplitBill";
+import { Badge } from "@/components/ui/badge";
 
 const MotionCard = motion(Card);
 
@@ -116,13 +117,19 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
       case 3:
         return (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold">
-              Assign items to each person
+            <h2 className="text-lg font-semibold -mb-3">
+              Assign items to people
             </h2>
+            <p className="text-sm text-muted-foreground">
+              You can select multiple people per item
+            </p>
+            <Separator className="my-2" />
             {data.items.flatMap((item, itemIndex) =>
               Array.from({ length: item.quantity }, (_, index) => {
                 const uniqueKey = `item-${itemIndex}-${index}`;
                 const assignmentKey = `${item.name}-${itemIndex}-${index}`;
+                const selectedPeople = itemAssignments[assignmentKey] || [];
+
                 return (
                   <div key={uniqueKey} className="space-y-2">
                     <span className="text-black font-medium">
@@ -131,28 +138,57 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
                         (
                         {item.modifiers
                           .filter((mod) => mod.price > 0)
-                          .map((mod) => mod.name.split(":")[0])
+                          .map((mod) => mod.name)
                           .join(", ")}
                         )
                       </span>
                     </span>
-                    <Select
-                      onValueChange={(value) =>
-                        handleItemAssignment(assignmentKey, value)
-                      }
-                      defaultValue={itemAssignments[assignmentKey]}
-                    >
-                      <SelectTrigger className="w-full border-yellow-400">
-                        <SelectValue placeholder="Assign to" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {people.map((person, idx) => (
-                          <SelectItem key={idx} value={person}>
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap gap-2">
+                        {selectedPeople.map((person) => (
+                          <Badge
+                            key={person}
+                            variant="secondary"
+                            className="flex items-center gap-1"
+                          >
                             {person}
-                          </SelectItem>
+                            <X
+                              className="h-3 w-3 cursor-pointer"
+                              onClick={() =>
+                                handleItemAssignment(
+                                  assignmentKey,
+                                  selectedPeople.filter((p) => p !== person)
+                                )
+                              }
+                            />
+                          </Badge>
                         ))}
-                      </SelectContent>
-                    </Select>
+                      </div>
+                      <Select
+                        onValueChange={(value) =>
+                          handleItemAssignment(assignmentKey, [
+                            ...selectedPeople,
+                            value,
+                          ])
+                        }
+                        value=""
+                      >
+                        <SelectTrigger className="w-full border-yellow-400">
+                          <SelectValue placeholder="Add person" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {people
+                            .filter(
+                              (person) => !selectedPeople.includes(person)
+                            )
+                            .map((person, idx) => (
+                              <SelectItem key={idx} value={person}>
+                                {person}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 );
               })
@@ -177,6 +213,10 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
               <span>Total</span>
               <span>Rp {data.total.toLocaleString()}</span>
             </div>
+            <p className="text-sm text-muted-foreground mt-4">
+              Note: The taxes and fees are calculated proportionally based on
+              each person&apos;s order amount.
+            </p>
           </div>
         );
       default:
@@ -194,10 +234,10 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
         {renderContent()}
         <div className="flex justify-between mt-4">
           {splitBillStep === 1 ? (
-            <Button onClick={onClose} variant="outline-otter">
+            <Button onClick={onClose} variant="destructive-outline">
               Cancel
             </Button>
-          ) : splitBillStep > 1 && splitBillStep < 4 ? (
+          ) : splitBillStep > 1 && splitBillStep < 5 ? (
             <Button variant="outline-otter" onClick={handlePreviousStep}>
               <ChevronLeft className="mr-2 h-4 w-4" />
               Back
@@ -212,8 +252,11 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
                   (duplicateNameError !== null ||
                     people.some((name) => name.trim() === ""))) ||
                 (splitBillStep === 3 &&
-                  Object.keys(itemAssignments).length !==
-                    data.items.reduce((sum, item) => sum + item.quantity, 0))
+                  (Object.keys(itemAssignments).length !==
+                    data.items.reduce((sum, item) => sum + item.quantity, 0) ||
+                    Object.values(itemAssignments).some(
+                      (assignments) => assignments.length === 0
+                    )))
               }
             >
               {splitBillStep === 3 ? "Calculate" : "Next"}
@@ -221,7 +264,7 @@ export function SplitBill({ data, onClose, splitBillState }: SplitBillProps) {
             </Button>
           )}
           {splitBillStep === 4 && (
-            <Button variant="otter" onClick={onClose} className="ml-auto">
+            <Button variant="otter" onClick={onClose}>
               Done
             </Button>
           )}
