@@ -3,7 +3,7 @@ import { skeletonClass } from "../../utils/animations";
 
 export function PointsCardSkeleton() {
   return (
-    <Card className="rounded-xl border-pink-100 bg-gradient-to-br from-pink-100 to-purple-100">
+    <Card className="rounded-xl border-yellow-100 bg-gradient-to-br from-yellow-100 to-amber-100">
       <CardContent className="py-6">
         <div className="flex items-center justify-between">
           <div className="space-y-2">

@@ -4,8 +4,8 @@ import { skeletonClass } from "../../utils/animations";
 
 export function OrderSummarySkeleton() {
   return (
-    <Card className="rounded-xl border-pink-100">
-      <CardContent className="space-y-2 py-4">
+    <Card className="rounded-xl">
+      <CardContent className="space-y-2 py-4 bg-yellow-100">
         <div className="flex justify-between">
           <div className={`${skeletonClass} h-5 w-1/4 rounded-md`} />
           <div className={`${skeletonClass} h-5 w-1/4 rounded-md`} />
@@ -14,7 +14,7 @@ export function OrderSummarySkeleton() {
           <div className={`${skeletonClass} h-5 w-1/3 rounded-md`} />
           <div className={`${skeletonClass} h-5 w-1/4 rounded-md`} />
         </div>
-        <Separator className="bg-pink-100" />
+        <Separator className="bg-yellow-100" />
         <div className="flex justify-between">
           <div className={`${skeletonClass} h-6 w-1/4 rounded-md`} />
           <div className={`${skeletonClass} h-6 w-1/3 rounded-md`} />

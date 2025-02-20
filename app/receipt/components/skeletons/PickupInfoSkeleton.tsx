@@ -3,7 +3,7 @@ import { skeletonClass } from "../../utils/animations";
 
 export function PickupInfoSkeleton() {
   return (
-    <Card className="rounded-xl border-pink-100">
+    <Card className="rounded-xl border-yellow-100">
       <CardHeader>
         <div className={`${skeletonClass} h-6 w-1/4 rounded-md`} />
       </CardHeader>

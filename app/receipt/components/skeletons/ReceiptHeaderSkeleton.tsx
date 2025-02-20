@@ -3,7 +3,7 @@ import { skeletonClass } from "../../utils/animations";
 
 export function ReceiptHeaderSkeleton() {
   return (
-    <Card className="rounded-xl border-pink-100">
+    <Card className="rounded-xl border-yellow-100">
       <CardHeader className="flex flex-row items-center space-x-4 pb-2">
         <div className={`${skeletonClass} w-[60px] h-[60px] rounded-full`} />
         <div className="space-y-2 flex-1">

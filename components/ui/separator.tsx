@@ -10,7 +10,7 @@ const separatorVariants = cva("shrink-0 bg-border", {
   variants: {
     variant: {
       default: "bg-border",
-      otter: "bg-yellow-400",
+      otter: "bg-yellow-200",
     },
     orientation: {
       horizontal: "h-[1px] w-full",

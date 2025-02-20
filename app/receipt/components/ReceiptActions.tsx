@@ -27,7 +27,7 @@ export function ReceiptActions({ data, orderId }: ReceiptActionsProps) {
         className="flex-1"
         onClick={generatePDF}
       >
-        <FileDown className="h-4 w-4 mr-2" />
+        <FileDown className="h-4 w-4" />
         <span className="font-semibold">Save as PDF</span>
       </MotionButton>
       <MotionButton
@@ -46,7 +46,7 @@ export function ReceiptActions({ data, orderId }: ReceiptActionsProps) {
           }
         }}
       >
-        <Share className="h-4 w-4 mr-2" />
+        <Share className="h-4 w-4" />
         <span className="font-semibold">Share Receipt</span>
       </MotionButton>
     </div>

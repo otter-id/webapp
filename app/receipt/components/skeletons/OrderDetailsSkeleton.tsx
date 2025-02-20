@@ -4,7 +4,7 @@ import { skeletonClass } from "../../utils/animations";
 
 export function OrderDetailsSkeleton() {
   return (
-    <Card className="rounded-xl border-pink-100">
+    <Card className="rounded-xl border-yellow-100">
       <CardHeader>
         <div className={`${skeletonClass} h-6 w-1/3 rounded-md`} />
       </CardHeader>
@@ -35,7 +35,7 @@ export function OrderDetailsSkeleton() {
                 </div>
               </div>
             </div>
-            {i < 3 && <Separator className="bg-pink-100 mt-3" />}
+            {i < 3 && <Separator className="bg-yellow-100 mt-3" />}
           </div>
         ))}
       </CardContent>

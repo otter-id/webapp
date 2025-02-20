@@ -14,6 +14,7 @@ import { OrderDetails } from "./components/OrderDetails";
 import { OrderSummary } from "./components/OrderSummary";
 import { PointsCard } from "./components/PointsCard";
 import { SplitBill } from "./components/SplitBill";
+import { RestaurantFeedback } from "./components/RestaurantFeedback";
 import { Footer } from "./components/Footer";
 
 // Skeleton components
@@ -92,6 +93,7 @@ const ReceiptContent = () => {
           <>
             <ReceiptHeader data={data} />
             <ReceiptActions data={data} orderId={orderId || ""} />
+            <RestaurantFeedback />
             <PickupInfo data={data} />
             <OrderDetails data={data} />
             <OrderSummary
